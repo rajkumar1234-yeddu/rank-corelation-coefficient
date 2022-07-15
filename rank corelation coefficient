@@ -1,0 +1,50 @@
+# rank corelation coefficient
+
+import numpy as np
+cf=[]
+def find_rank(l):
+    r={}
+    s=list(set(l))
+    w=l.copy()
+    s.sort(reverse=True)
+    w.sort(reverse=True)
+    a=1
+    for i in s:
+        m=l.count(i)
+        if m==1:
+            r[i]=a
+            a+=1
+        else:
+            q=0
+            for j in range(m):
+                q+=a
+                a+=1
+            r[i]=q/m
+            cf.append(m*(m**2-1)/12)
+    return r
+
+x=[68,64,75,50,64,80,75,40,55,64]
+y=[62,58,68,45,81,60,68,48,50,70]
+x_rank=find_rank(x)
+y_rank=find_rank(y)
+n=len(x)
+d=[]
+for i in range(n):
+    d.append(x_rank[x[i]]-y_rank[y[i]])
+
+d_2=[i*i for i in d]
+if len(cf)!=0:
+    sum_d_2=sum(d_2)+sum(cf)
+else:
+    sum_d_2=sum(d_2)
+print(d)
+print(d_2)
+print(x_rank)
+print(cf)
+print(sum_d_2)
+num=6*sum_d_2
+den=n*(n**2 - 1)
+print(num)
+print(den)
+rankcorelation=1 - num/den
+print("Rank corelation is {:.5f}".format(rankcorelation))
